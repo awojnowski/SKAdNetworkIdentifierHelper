@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SKAdNetworkIdentifier Helper</title>
+
+    <script>
+      function plistToList(e) {
+        const plistElement = document.getElementById("plist");
+        const listElement = document.getElementById("list");
+
+        const re = /<string>(.*?)<\/string>/g;
+        const result = re[Symbol.matchAll](plistElement.value);
+        const identifiers = Array.from(result, x => x[1].toLowerCase()).sort();
+        listElement.value = identifiers.join("\n");
+      }
+      function listToPlist(e) {
+        const plistElement = document.getElementById("plist");
+        const listElement = document.getElementById("list");
+
+        const identifiers = listElement.value.split("\n").map(function(v) {
+          return v.toLowerCase();
+        }).sort();
+        let result = "<array>\n";
+        for (identifier of identifiers) {
+          result += "    <dict>\n        <key>SKAdNetworkIdentifier</key>\n        <string>";
+          result += identifier;
+          result += "</string>\n    </dict>\n";
+        }
+        result += "</array>"
+        plistElement.value = result;
+      }
+    </script>
+
+    <style>
+      textarea {
+        width:100%;
+        height:400px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <textarea id="plist"></textarea>
+    </div>
+    <div style="text-align:center;">
+      .plist format
+    </div>
+    <div style="display:flex;justify-content:center;align-items:center;margin-top:32px;margin-bottom:32px;">
+      <button style="margin-right:32px;" onclick="plistToList();">Plist to List</button><button onclick="listToPlist();">List to Plist</button>
+    </div>
+    <div style="text-align:center;">
+      list format
+    </div>
+    <div>
+      <textarea id="list"></textarea>
+    </div>
+  </body>
+</html>
