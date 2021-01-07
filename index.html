@@ -8,22 +8,29 @@
     <title>SKAdNetworkIdentifier Helper</title>
 
     <script>
+      // https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+      function unique_array(a) {
+          return a.sort().filter(function(item, pos, ary) {
+              return !pos || item != ary[pos - 1];
+          });
+      }
+
       function plistToList(e) {
         const plistElement = document.getElementById("plist");
         const listElement = document.getElementById("list");
 
         const re = /<string>(.*?)<\/string>/g;
         const result = re[Symbol.matchAll](plistElement.value);
-        const identifiers = Array.from(result, x => x[1].toLowerCase()).sort();
+        const identifiers = unique_array(Array.from(result, x => x[1].toLowerCase()).sort());
         listElement.value = identifiers.join("\n");
       }
       function listToPlist(e) {
         const plistElement = document.getElementById("plist");
         const listElement = document.getElementById("list");
 
-        const identifiers = listElement.value.split("\n").map(function(v) {
+        const identifiers = unique_array(listElement.value.split("\n").map(function(v) {
           return v.toLowerCase();
-        }).sort();
+        }).sort());
         let result = "<array>\n";
         for (identifier of identifiers) {
           result += "    <dict>\n        <key>SKAdNetworkIdentifier</key>\n        <string>";
