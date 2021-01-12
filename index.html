@@ -40,6 +40,16 @@
         result += "</array>"
         plistElement.value = result;
       }
+      function matchToList(e) {
+        const matchElement = document.getElementById("match");
+        const listElement = document.getElementById("list");
+
+        const re = /([A-Za-z0-9]+.skadnetwork)/g;
+        const result = re[Symbol.matchAll](matchElement.value);
+
+        const identifiers = unique_array(Array.from(result, x => x[1].toLowerCase()).sort());
+        listElement.value = identifiers.join("\n");
+      }
     </script>
 
     <style>
@@ -64,6 +74,15 @@
     </div>
     <div>
       <textarea id="list"></textarea>
+    </div>
+    <div style="display:flex;justify-content:center;align-items:center;margin-top:32px;margin-bottom:32px;">
+      <button style="margin-right:32px;" onclick="matchToList();">Match Identifiers to List</button>
+    </div>
+    <div style="text-align:center;">
+      match (will match all .skadnetwork identifiers ignoring formatting)
+    </div>
+    <div>
+      <textarea id="match"></textarea>
     </div>
   </body>
 </html>
