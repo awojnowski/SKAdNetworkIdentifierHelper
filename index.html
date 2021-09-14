@@ -33,9 +33,9 @@
         }).sort());
         let result = "<array>\n";
         for (identifier of identifiers) {
-          result += "    <dict>\n        <key>SKAdNetworkIdentifier</key>\n        <string>";
+          result += "\t<dict>\n\t\t<key>SKAdNetworkIdentifier</key>\n\t\t<string>";
           result += identifier;
-          result += "</string>\n    </dict>\n";
+          result += "</string>\n\t</dict>\n";
         }
         result += "</array>"
         plistElement.value = result;
